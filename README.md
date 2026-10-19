@@ -1,7 +1,5 @@
 # CTE412 Practical 15 — Campus Notice Board on Kubernetes
 
-Student: **Damber Khatiwara**  
-Student number: **02230123**
 
 This repository implements the Campus Notice Board API and Kubernetes manifests for the CTE412 assessed lab. Measurements in `evidence/` and the report must come from your own run; do not invent failure counts or timestamps.
 
