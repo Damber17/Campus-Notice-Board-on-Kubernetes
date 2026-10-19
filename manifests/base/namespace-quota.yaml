@@ -1,0 +1,42 @@
+# Purpose: Create the assessed namespace, quota and container defaults.
+# Apply command: kubectl apply -f manifests/base/namespace-quota.yaml
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: nb-02230123
+  labels:
+    app.kubernetes.io/part-of: campus-notice-board
+    cte412/practical: "06"
+  annotations:
+    student-name: "Damber Khatiwara"
+---
+apiVersion: v1
+kind: ResourceQuota
+metadata:
+  name: notice-board-quota
+  namespace: nb-02230123
+spec:
+  hard:
+    requests.cpu: "1"
+    requests.memory: 1Gi
+    limits.cpu: "2"
+    limits.memory: 2Gi
+    pods: "15"
+    count/services: "4"
+---
+apiVersion: v1
+kind: LimitRange
+metadata:
+  name: notice-board-limits
+  namespace: nb-02230123
+spec:
+  limits:
+    - type: Container
+      # Small defaults leave quota capacity for blue/green Pods and the monitor.
+      defaultRequest:
+        cpu: 50m
+        memory: 64Mi
+      # Modest limits prevent one container from consuming the namespace quota.
+      default:
+        cpu: 200m
+        memory: 128Mi

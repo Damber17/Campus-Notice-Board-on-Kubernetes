@@ -1,0 +1,9 @@
+# Purpose: Supply the runtime feature flag to green Pods.
+# Apply command: kubectl apply -f manifests/bluegreen/flags.yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: notice-board-flags
+  namespace: nb-02230123
+data:
+  FEATURE_PINNED: "false"

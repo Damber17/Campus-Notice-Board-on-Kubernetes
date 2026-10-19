@@ -1,0 +1,14 @@
+# Purpose: Create a three-node kind cluster and map localhost port 30090 to the NodePort.
+# Apply command: kind create cluster --config cluster/kind-cluster.yaml
+kind: Cluster
+apiVersion: kind.x-k8s.io/v1alpha4
+name: cte412-02230123
+nodes:
+  - role: control-plane
+    extraPortMappings:
+      - containerPort: 30090
+        hostPort: 30090
+        listenAddress: "127.0.0.1"
+        protocol: TCP
+  - role: worker
+  - role: worker

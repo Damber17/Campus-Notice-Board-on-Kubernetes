@@ -1,0 +1,8 @@
+{
+  "name": "campus-notice-board",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Minimal Campus Notice Board API for CTE412 practical",
+  "main": "server.js",
+  "scripts": { "start": "node server.js" }
+}

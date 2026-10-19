@@ -1,0 +1,37 @@
+# Purpose: Continuously request /version every 500 ms and log timestamp, result and body.
+# Apply command: kubectl apply -f manifests/base/monitor.yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: monitor
+  namespace: nb-02230123
+  labels:
+    app: notice-board-monitor
+spec:
+  restartPolicy: Always
+  containers:
+    - name: monitor
+      # BusyBox is Alpine-family compatible and avoids pulling a notice-board image.
+      image: busybox:1.36
+      imagePullPolicy: IfNotPresent
+      command: ["/bin/sh", "-c"]
+      args:
+        - |
+          while true; do
+            TS="$(date -u +%Y-%m-%dT%H:%M:%SZ)"
+            BODY="$(wget -q -T 2 -O - http://notice-board/version 2>&1)"
+            RC=$?
+            if [ "$RC" -eq 0 ]; then
+              echo "$TS OK $BODY"
+            else
+              echo "$TS FAIL $BODY"
+            fi
+            sleep 0.5
+          done
+      resources:
+        requests:
+          cpu: 50m
+          memory: 32Mi
+        limits:
+          cpu: 100m
+          memory: 64Mi
